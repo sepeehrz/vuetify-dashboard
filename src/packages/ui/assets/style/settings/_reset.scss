@@ -1,0 +1,44 @@
+:root {
+  --font-family: IRANSansX;
+  -moz-font-feature-settings: 'ss02';
+  -webkit-font-feature-settings: 'ss02';
+  font-feature-settings: 'ss02';
+  --toastify-font-family: IRANSansX;
+}
+
+html {
+  font-size: 14px;
+  font-family: var(--font-family);
+  overflow-y: hidden;
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #797869;
+    border-radius: 10px;
+  }
+}
+
+// * {
+//   box-sizing: border-box;
+// }
+
+body {
+  // margin: 0;
+  // height: auto;
+  // min-height: 100%;
+  // max-width: 100%;
+  // overflow-x: hidden;
+  // background-color: #f8f9fa;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: IRANSansX;
+  -moz-font-feature-settings: 'ss02';
+  -webkit-font-feature-settings: 'ss02';
+  font-feature-settings: 'ss02';
+}
