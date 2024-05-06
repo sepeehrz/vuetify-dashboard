@@ -31,7 +31,7 @@
   import {ref} from 'vue';
   import {EmployeesManagementService} from '../../helpers/service/index';
   import {useHeaders} from '../../helpers/dataTable/headers';
-  import {get} from '@dashboard/application';
+  import {get} from '@app/application';
   import {useRouter} from 'vue-router';
 
   const request = get(EmployeesManagementService);

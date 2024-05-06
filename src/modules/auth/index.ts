@@ -1,4 +1,4 @@
-import {defineModule} from '@dashboard/application';
+import {defineModule} from '@app/application';
 
 export default defineModule(({router}) => {
   router.addRoute('login', {

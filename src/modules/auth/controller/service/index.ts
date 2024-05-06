@@ -1,4 +1,4 @@
-import {Axios} from '@dashboard/utils';
+import {Axios} from '@app/utils';
 
 export class DashboardService {
   constructor(public axios: Axios) {}

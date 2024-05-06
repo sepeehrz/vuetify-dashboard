@@ -1,13 +1,13 @@
-import { App, Plugin, createVNode, render } from "vue";
-import AlertView from "@dashboard/ui/presentation/components/dialog/components/views/alert.vue";
-import ConfirmView from "@dashboard/ui/presentation/components/dialog/components/views/confirm.vue";
-import PromptView from "@dashboard/ui/presentation/components/dialog/components/views//prompt.vue";
-import dialogComponent from "@dashboard/ui/presentation/components/dialog/components/dialog.vue";
-import type { IDialog } from "@dashboard/ui/presentation/components/dialog/types/types";
+import {App, Plugin, createVNode, render} from 'vue';
+import AlertView from '@app/ui/presentation/components/dialog/components/views/alert.vue';
+import ConfirmView from '@app/ui/presentation/components/dialog/components/views/confirm.vue';
+import PromptView from '@app/ui/presentation/components/dialog/components/views//prompt.vue';
+import dialogComponent from '@app/ui/presentation/components/dialog/components/dialog.vue';
+import type {IDialog} from '@app/ui/presentation/components/dialog/types/types';
 
 class Dialog {
   options: IDialog = {
-    persistent: false,
+    persistent: false
   };
   app: App;
   $root: any = null;
@@ -18,24 +18,24 @@ class Dialog {
   }
   alert(dialog: IDialog = {}) {
     dialog.component = AlertView;
-    dialog.ok_txt = dialog.ok_txt || "باشه";
-    dialog.type = dialog.type || "warning";
+    dialog.ok_txt = dialog.ok_txt || 'باشه';
+    dialog.type = dialog.type || 'warning';
     return this.show(dialog);
   }
   prompt(dialog: IDialog = {}) {
     dialog.component = PromptView;
-    dialog.type = dialog.type || "question";
-    dialog.ok_txt = dialog.ok_txt || "تایید";
-    dialog.cancel_txt = dialog.cancel_txt || "منصرف شدم";
+    dialog.type = dialog.type || 'question';
+    dialog.ok_txt = dialog.ok_txt || 'تایید';
+    dialog.cancel_txt = dialog.cancel_txt || 'منصرف شدم';
     return this.show(dialog);
   }
   confirm(dialog: IDialog = {}) {
     dialog.component = ConfirmView;
-    dialog.title = dialog.title || "آیا از انجام این کار مطمعن هستید؟";
+    dialog.title = dialog.title || 'آیا از انجام این کار مطمعن هستید؟';
     dialog.message = dialog.message;
-    dialog.type = dialog.type || "warning";
-    dialog.ok_txt = dialog.ok_txt || "انجام بده";
-    dialog.cancel_txt = dialog.cancel_txt || "منصرف شدم";
+    dialog.type = dialog.type || 'warning';
+    dialog.ok_txt = dialog.ok_txt || 'انجام بده';
+    dialog.cancel_txt = dialog.cancel_txt || 'منصرف شدم';
     return this.show(dialog);
   }
   show(dialog: IDialog = {}) {
@@ -43,7 +43,7 @@ class Dialog {
       this.$root = this.mounted();
     }
     return new Promise((resolve, reject) => {
-      dialog.id = "dialog." + Date.now();
+      dialog.id = 'dialog.' + Date.now();
       dialog.resolve = resolve;
       dialog.reject = reject;
       const dialogItem = Object.assign({}, this.options, dialog);
@@ -53,9 +53,9 @@ class Dialog {
 
   mounted() {
     if (this.mountDialogCheck === false) {
-      const container = document.createElement("div");
-      container.setAttribute("id", "dialogs");
-      document.querySelector("#app")?.appendChild(container);
+      const container = document.createElement('div');
+      container.setAttribute('id', 'dialogs');
+      document.querySelector('#app')?.appendChild(container);
 
       const vNode = createVNode(dialogComponent);
       vNode.appContext = this.app._context;
@@ -70,7 +70,7 @@ export const DialogPlugin: Plugin = {
   install(app: App, options: IDialog) {
     const instance = new Dialog(app, options);
     app.config.globalProperties.dialog = instance;
-    app.provide("dialog", instance);
-  },
+    app.provide('dialog', instance);
+  }
 };
 export default DialogPlugin;

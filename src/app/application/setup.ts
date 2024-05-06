@@ -1,16 +1,14 @@
 import {App, Plugin} from 'vue';
 import {createRouter, createWebHistory} from 'vue-router';
 import type {Router} from 'vue-router';
-import {Layout} from './Layout';
-import {Scope, assignGlobalScope, getGlobalScope} from '@dashboard/jection';
-import {UiModule} from '@dashboard/ui';
-import {Axios} from '@dashboard/utils';
-import {NavigationMenu} from '@dashboard/utils';
+import {Scope, assignGlobalScope, getGlobalScope} from '@app/jection';
+import {UiModule} from '@app/ui';
+import {Axios} from '@app/utils';
+import {NavigationMenu} from '@app/utils';
 type ModuleSetupContext = {
   app: App;
   router: Router;
   scope: Scope;
-  layout: Layout;
 };
 
 type Module = (context: ModuleSetupContext) => void;
@@ -23,7 +21,6 @@ export const startApplication: Plugin = (app: App) => {
   const scope = new Scope();
   assignGlobalScope(scope);
 
-  scope.single(Layout);
   scope.single(Axios);
   scope.single(NavigationMenu);
 
@@ -35,8 +32,7 @@ export const startApplication: Plugin = (app: App) => {
   const context: ModuleSetupContext = {
     app,
     router,
-    scope: scope,
-    layout: scope.get(Layout)
+    scope: scope
   };
   UiModule(context);
 

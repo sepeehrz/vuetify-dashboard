@@ -1,4 +1,4 @@
-import {defineModule} from '@dashboard/application';
+import {defineModule} from '@app/application';
 import {EmployeesManagementScope} from './controller/index';
 export default defineModule(({router, scope}) => {
   // EmployeesManagementScope(scope);

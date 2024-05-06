@@ -18,7 +18,7 @@
   import {ref} from 'vue';
   import {EmployeesManagementService} from '../controller/service/index';
 
-  import {get} from '@dashboard/application';
+  import {get} from '@app/application';
 
   const request = get(EmployeesManagementService);
   const headers = ref([

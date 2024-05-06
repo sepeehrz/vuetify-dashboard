@@ -47,7 +47,7 @@
   import formItems from './formItems.vue';
   import type {IFormData} from './types/types';
   import {useRoute, useRouter} from 'vue-router';
-  import type {RequestAxiosResource} from '@dashboard/utils/axios/types/AxiosTypes';
+  import type {RequestAxiosResource} from '@app/utils/axios/types/AxiosTypes';
 
   interface Props {
     formData: IFormData[];

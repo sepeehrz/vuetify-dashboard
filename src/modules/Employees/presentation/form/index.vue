@@ -13,7 +13,7 @@
   import employeesManagementFormScheme from '../../helpers/form/formSchema';
   import {useFormData} from '../../helpers/form/formData';
   import {EmployeesManagementService} from '../../helpers/service/index';
-  import {get} from '@dashboard/application';
+  import {get} from '@app/application';
   import {useRoute} from 'vue-router';
   const request = get(EmployeesManagementService);
   const items = ref<any>({});

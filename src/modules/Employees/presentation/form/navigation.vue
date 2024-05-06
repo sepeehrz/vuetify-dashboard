@@ -2,7 +2,7 @@
   <navBar :items="items" />
 </template>
 <script lang="ts" setup>
-  import navBar from '@dashboard/ui/presentation/components/navBar/NavBar.vue';
+  import navBar from '@app/ui/presentation/components/navBar/NavBar.vue';
   import {useRoute} from 'vue-router';
 
   const $route = useRoute();

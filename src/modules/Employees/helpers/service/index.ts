@@ -1,4 +1,4 @@
-import {BaseService, RequestAxiosInstance} from '@dashboard/utils';
+import {BaseService, RequestAxiosInstance} from '@app/utils';
 
 export class EmployeesManagementService extends BaseService {
   constructor(public $axios: RequestAxiosInstance) {

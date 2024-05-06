@@ -1,6 +1,6 @@
 import vuetify from './vuetify';
 import {setupComponents} from './components';
-import {defineModule} from '@dashboard/application';
+import {defineModule} from '@app/application';
 import defaultLayout from './presentation/layouts/defaultLayout.vue';
 import loginLayout from './presentation/layouts/loginLayout.vue';
 import './assets/style/app.scss';

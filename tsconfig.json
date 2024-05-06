@@ -20,11 +20,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@dashboard/*": ["./src/packages/*"],
+      "@app/*": ["./src/app/*"],
       "@modules/*": ["./src/modules/*"]
     }
   },
-  // "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "include": ["src"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

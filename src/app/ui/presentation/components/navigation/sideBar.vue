@@ -27,8 +27,8 @@
   import {ref, watch, computed} from 'vue';
   import navigationItems from './navigationItems.vue';
   import railMenuItems from './railsMenuItems.vue';
-  import {NavigationMenu} from '@dashboard/utils';
-  import {get} from '@dashboard/application';
+  import {NavigationMenu} from '@app/utils';
+  import {get} from '@app/application';
 
   interface Props {
     drawerState: boolean;

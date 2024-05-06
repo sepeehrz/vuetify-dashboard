@@ -48,13 +48,6 @@ export class Scope {
     this.register('factory', ctor, dependencies);
   }
 
-  viewmodel<T extends ScopeClass>(
-    ctor: T,
-    dependencies?: ScopeClass[] | string[]
-  ) {
-    this.register('factory', ctor, dependencies);
-  }
-
   private getRegistryByName(name: string) {
     const findRegister = this.registers.find(item => item.name === name);
     if (!findRegister) {
@@ -80,12 +73,5 @@ export class Scope {
       instance
     });
     return instance;
-  }
-
-  remove(instance: unknown) {
-    const x = this.instances.findIndex(item => item.instance === instance);
-    if (x >= 0) {
-      this.instances.splice(x, 1);
-    }
   }
 }
