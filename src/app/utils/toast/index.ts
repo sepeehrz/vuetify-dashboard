@@ -1,5 +1,5 @@
 import {App, Plugin, h, render} from 'vue';
-import ToastComponent from '@app/ui/presentation/components/toast.vue';
+import ToastComponent from '@app/ui/components/toast.vue';
 
 interface IToast {
   timeout?: number;

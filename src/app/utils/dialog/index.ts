@@ -1,9 +1,9 @@
 import {App, Plugin, createVNode, render} from 'vue';
-import AlertView from '@app/ui/presentation/components/dialog/components/views/alert.vue';
-import ConfirmView from '@app/ui/presentation/components/dialog/components/views/confirm.vue';
-import PromptView from '@app/ui/presentation/components/dialog/components/views//prompt.vue';
-import dialogComponent from '@app/ui/presentation/components/dialog/components/dialog.vue';
-import type {IDialog} from '@app/ui/presentation/components/dialog/types/types';
+import AlertView from '@app/ui/components/dialog/components/views/alert.vue';
+import ConfirmView from '@app/ui/components/dialog/components/views/confirm.vue';
+import PromptView from '@app/ui/components/dialog/components/views//prompt.vue';
+import dialogComponent from '@app/ui/components/dialog/components/dialog.vue';
+import type {IDialog} from '@app/ui/components/dialog/types/types';
 
 class Dialog {
   options: IDialog = {

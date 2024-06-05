@@ -1,5 +1,5 @@
 import {App, Plugin, render, createVNode} from 'vue';
-import loaderComponent from '@app/ui/presentation/components/loader.vue';
+import loaderComponent from '@app/ui/components/loader.vue';
 
 interface IOPtions {
   width: number;
