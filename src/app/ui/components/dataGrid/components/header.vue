@@ -17,7 +17,6 @@
           <template v-slot:activator="{props}">
             <v-btn
               v-bind="props"
-              class="create-btn"
               @click="_reset"
               variant="text"
               icon="mdi-refresh"></v-btn>
@@ -87,9 +86,13 @@
       padding: 0 25px;
     }
     h3 {
+      font-weight: 500;
       span {
         margin-right: 10px;
       }
+    }
+    .create-btn {
+      font-size: 14px;
     }
   }
 </style>

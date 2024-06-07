@@ -64,14 +64,13 @@
           </template>
         </tr>
       </template>
-      <template #item="{item, index}">
+      <template #item="{item}">
         <tr>
           <td v-if="selective">
             <v-checkbox v-model="selected" :value="item" hide-details />
           </td>
           <tableBody
             :item="item"
-            :number="index + 1"
             :withEdit="withEdit"
             :withDelete="withDelete"
             :editUrl="editUrl"
@@ -178,20 +177,6 @@
     const action_exist = props.headers?.some(
       (item: any) => item.name == 'action'
     );
-
-    const hashtag_exist = props.headers?.some(
-      (item: any) => item.name == 'hashtag'
-    );
-
-    if (!hashtag_exist) {
-      headers?.unshift({
-        title: '#',
-        name: 'hashtag',
-        align: 'center',
-        width: '5%',
-        sortable: false
-      });
-    }
     if (!action_exist && props.withAction) {
       headers?.push({
         title: 'عملیات',
@@ -324,28 +309,39 @@
       overflow-y: hidden;
       overflow-x: auto;
 
-      .v-btn--icon.v-btn--density-default {
-        width: 30px;
-        height: 30px;
+      &::-webkit-scrollbar {
+        height: 5px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgb(var(--v-theme-primary));
+        border-radius: 10px;
+      }
+
+      .v-btn--icon {
+        &.v-btn--density-default {
+          width: 30px;
+          height: 30px;
+        }
       }
       .v-selection-control--density-default {
         --v-selection-control-size: unset;
       }
       th {
-        background: #dee2e6;
-        color: #212529;
+        background: rgb(var(--v-theme-primary));
+        color: #fff;
       }
       td,
       th {
-        border: 1px solid #0000000d;
+        border-bottom: 0 !important;
         text-align: right;
         font-size: 16px;
-        height: 40px;
-        padding-right: 5px;
+        height: 50px;
+        padding-right: 10px;
+        white-space: nowrap;
       }
-
       tr:nth-child(even) {
-        background-color: #0000000d;
+        background-color: #f3f1eb;
       }
     }
   }

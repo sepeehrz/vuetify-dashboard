@@ -1,7 +1,4 @@
 <template>
-  <td>
-    {{ number }}
-  </td>
   <slot name="data" :item="item" />
   <td>
     <slot name="actions">
@@ -63,11 +60,11 @@
 <script lang="ts" setup>
   import {inject, mergeProps} from 'vue';
   import {useRouter, useRoute} from 'vue-router';
+
   interface Props {
-    item: {id: string};
+    item: {[key: string]: any};
     withEdit: boolean;
     withDelete: boolean;
-    number: number;
     editUrl?: (items: object) => void;
     actions?: any;
   }

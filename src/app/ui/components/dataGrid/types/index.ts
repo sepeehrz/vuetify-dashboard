@@ -25,8 +25,8 @@ export interface IFilters {
   name?: string;
   model: string;
   label: string;
-  type: string;
-  items: ISelect[];
+  type?: string;
+  items?: ISelect[];
   placeholder?: string;
   col?: number;
   hint?: string;

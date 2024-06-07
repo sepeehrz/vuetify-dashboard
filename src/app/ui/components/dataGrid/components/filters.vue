@@ -21,6 +21,7 @@
         <template v-else>
           <v-text-field
             color="primary"
+            autocomplete="off"
             v-model="model[item.model]"
             :name="item.name"
             :label="item.label"
