@@ -14,9 +14,14 @@
                 :key="fieldIndex"
                 @update:modelValue="change_field(field)"
                 @blur="blur(field)"
-                @focus="focus(field)" />
+                @focus="focus(field)">
+                <template #dynamic-field>
+                  <slot name="dynamic-field" />
+                </template>
+              </component>
             </v-col>
           </template>
+          <slot name="extra-form-item" />
         </v-row>
       </template>
     </template>
@@ -26,14 +31,18 @@
 <script lang="ts" setup>
   import {watch, ref} from 'vue';
   import TextField from './formFields/textField.vue';
-  import AutoCompleteField from './formFields/autoComplete.vue';
-  import DatePickerField from './formFields/datePicker.vue';
-  import SelectField from './formFields/selectField.vue';
-  import CurrencyField from './formFields/currency.vue';
+  import FileField from './formFields/fileField.vue';
   import type {IFormData, IRows} from './types/types';
-
+  import CurrencyField from './formFields/currency.vue';
+  import SelectField from './formFields/selectField.vue';
+  import SwitchField from './formFields/switchField.vue';
+  import DatePickerField from './formFields/datePicker.vue';
+  import TextAreaField from './formFields/textAreaField.vue';
+  import AutoCompleteField from './formFields/autoComplete.vue';
+  import CheckboxField from './formFields/checkboxField.vue';
+  // fixed type for IFormData
   interface Props {
-    formData: IFormData[];
+    formData: any;
     errorMessage: any;
     validationSchema?: any;
   }
@@ -47,7 +56,11 @@
     AutoCompleteField,
     SelectField,
     DatePickerField,
-    CurrencyField
+    CurrencyField,
+    TextAreaField,
+    SwitchField,
+    FileField,
+    CheckboxField
   };
   const errorMessages = ref(props.errorMessage);
 

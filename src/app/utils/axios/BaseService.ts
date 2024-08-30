@@ -1,8 +1,11 @@
+import {Axios} from './axios';
 import {AxiosResponse} from 'axios';
-import {Iparams, IListOption, RequestAxiosInstance} from './types/AxiosTypes';
-export class BaseService {
+import {Iparams} from './types';
+
+export class BaseService extends Axios {
   path;
-  constructor(public $axios: RequestAxiosInstance, path: string) {
+  constructor(path: string) {
+    super();
     this.path = path;
   }
   $get(id: number | string | string[]): Promise<AxiosResponse> {
@@ -11,7 +14,6 @@ export class BaseService {
   $save(obj: any): Promise<AxiosResponse> {
     return this.$axios.post(this.path, obj);
   }
-  // Promise<IListOption<AxiosResponse>> jaygozin e type paEn
   $query(params?: Iparams): Promise<AxiosResponse> {
     return this.$axios.get(this.path, {params});
   }
@@ -21,16 +23,29 @@ export class BaseService {
   $delete(id: number | string): Promise<AxiosResponse> {
     return this.$axios.delete(this.path + '/' + id);
   }
-  $restore(id: number) {
-    return this.$axios.put(this.path + '/restore' + '/' + id);
+
+  $list(headers?: object, params?: object) {
+    return this.$axios.get(this.path + '/list', {headers, params});
   }
-  $logs(id: number) {
-    return this.$axios.get(`/Logs/${id}`);
-  }
-  $excel(params: any) {
-    return this.$axios.get(this.path, {
-      responseType: 'arraybuffer',
-      params
+  $export(headers: object, path?: string) {
+    return this.$axios.get(path ? path : this.path + '/export', {
+      headers,
+      responseType: 'arraybuffer'
     });
+  }
+  $queryWithHeader(headers: object, params?: object) {
+    return this.$axios.get(this.path, {headers, params});
+  }
+  $updateWithHeader(obj: any, headers?: object): Promise<AxiosResponse> {
+    return this.$axios.put(this.path, obj, {headers});
+  }
+  $deleteWithHeader(headers?: object): Promise<AxiosResponse> {
+    return this.$axios.delete(this.path, {headers});
+  }
+  $deleteListWithHeader(headers?: object): Promise<AxiosResponse> {
+    return this.$axios.get(this.path + '/deleted/list', {headers});
+  }
+  $restoreWithHeader(headers?: object): Promise<AxiosResponse> {
+    return this.$axios.put(this.path + '/deleted/restore', {}, {headers});
   }
 }

@@ -18,6 +18,7 @@ export interface IRows {
   disabled?: boolean;
   typeInput?: string;
   col?: number;
+  required?: boolean;
   onChange?: (value: string) => void;
 }
 export interface IFormData {

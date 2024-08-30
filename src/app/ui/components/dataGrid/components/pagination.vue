@@ -6,12 +6,13 @@
       rounded="circle"
       total-visible="10"
       color="#000"
+      @update:modelValue="changePage"
       active-color="rgb(var(--v-theme-primary))"></v-pagination>
     <div class="page-size-wrapper">
       <div class="page-number">
         صفحه {{ currentPage }} از {{ totalPageNumber }}
       </div>
-      <v-menu>
+      <v-menu v-if="withPageSize">
         <template v-slot:activator="{props}">
           <div class="page-size" v-bind="props">
             <div class="page-size-icon">
@@ -40,8 +41,11 @@
   interface Props {
     page: any;
     totalPages: any;
+    withPageSize?: boolean;
   }
-  const props = withDefaults(defineProps<Props>(), {});
+  const props = withDefaults(defineProps<Props>(), {
+    withPageSize: true
+  });
   const emits = defineEmits<{
     (e: 'changePage', items: number): void;
     (e: 'changePageSize', items: number): void;
@@ -58,7 +62,7 @@
     (value: any) => {
       currentPage.value = value;
     },
-    {immediate: true}
+    {deep: true, immediate: true}
   );
   watch(
     () => props.totalPages,
@@ -68,15 +72,13 @@
     {immediate: true}
   );
 
-  watch(
-    () => currentPage.value,
-    (value: any) => {
-      emits('changePage', value);
-    }
-  );
+  async function changePage(page: number) {
+    emits('changePage', page);
+  }
 
-  function selectPageSize(pageSize: number) {
+  async function selectPageSize(pageSize: number) {
     itemsPerPage.value = pageSize;
+    currentPage.value = 1;
     emits('changePageSize', pageSize);
   }
 </script>

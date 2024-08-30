@@ -28,7 +28,7 @@
   import navigationItems from './navigationItems.vue';
   import railMenuItems from './railsMenuItems.vue';
   import {NavigationMenu} from '@app/utils';
-  import {get} from '@app/application';
+  import {getInstance} from '@app/utils';
 
   interface Props {
     drawerState: boolean;
@@ -39,7 +39,7 @@
 
   const drawer = ref(props.drawerState);
   const rail = ref(false);
-  const menuItems = get(NavigationMenu).get();
+  const menuItems = getInstance(NavigationMenu).get();
 
   watch(
     () => props.drawerState,

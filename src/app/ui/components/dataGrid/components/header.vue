@@ -4,12 +4,41 @@
       <div class="table-title">
         <h3>
           <v-icon :icon="title.icon"></v-icon>
-          <span>
+          <span v-if="isRecycleBin" class="table-deleted-title">
+            لیست حذف شده ها
+          </span>
+          <span v-else>
             {{ title.text }}
           </span>
         </h3>
       </div>
       <div class="table-actions" v-if="withActionBar">
+        <v-tooltip
+          v-if="withRecycleBin"
+          :text="
+            !isRecycleBin ? 'لیست آیتم های حذف شده' : 'لیست آیتم های حذف نشده'
+          "
+          location="bottom">
+          <template v-slot:activator="{props}">
+            <v-btn
+              v-bind="props"
+              @click="_recycleBinList"
+              variant="text"
+              :icon="!isRecycleBin ? 'mdi-delete' : 'mdi-delete-off'"></v-btn>
+          </template>
+        </v-tooltip>
+        <v-tooltip
+          v-if="withExcelDownload"
+          text="دانلود جدول"
+          location="bottom">
+          <template v-slot:activator="{props}">
+            <v-btn
+              v-bind="props"
+              @click="_download"
+              variant="text"
+              icon="mdi-microsoft-excel"></v-btn>
+          </template>
+        </v-tooltip>
         <v-tooltip
           v-if="withRefresh"
           text="تازه کردن اطلاعات"
@@ -22,6 +51,7 @@
               icon="mdi-refresh"></v-btn>
           </template>
         </v-tooltip>
+
         <slot name="toollbar_right"></slot>
         <slot name="header_add">
           <v-btn
@@ -45,19 +75,27 @@
     withHeader?: boolean;
     withActionBar?: boolean;
     withRefresh?: boolean;
+    withExcelDownload?: boolean;
     withAdd?: boolean;
     title: {text?: string; icon?: string};
     createUrl?: string;
+    isRecycleBin: boolean;
+    withRecycleBin?: boolean;
   }
   const props = withDefaults(defineProps<Props>(), {
     withHeader: true,
     withActionBar: true,
     withRefresh: true,
-    withAdd: true
+    withExcelDownload: true,
+    withAdd: true,
+    withRecycleBin: true,
+    isRecycleBin: false
   });
 
   const emits = defineEmits<{
     (e: 'resetTable'): void;
+    (e: 'downloadExcel'): void;
+    (e: 'recycleBinList'): void;
   }>();
 
   const $router = useRouter();
@@ -73,13 +111,19 @@
   function _reset() {
     emits('resetTable');
   }
+  function _download() {
+    emits('downloadExcel');
+  }
+  function _recycleBinList() {
+    emits('recycleBinList');
+  }
 </script>
 <style lang="scss" scoped>
   .table-header {
     margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #ebedf2;
+    border-bottom: 1px solid #e4e4e4;
     min-height: 80px;
     align-items: center;
     @include media(sm) {
@@ -87,8 +131,16 @@
     }
     h3 {
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      i {
+        margin-top: -5px;
+      }
       span {
         margin-right: 10px;
+      }
+      .table-deleted-title {
+        color: $error_color;
       }
     }
     .create-btn {

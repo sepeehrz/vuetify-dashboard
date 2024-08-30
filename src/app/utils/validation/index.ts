@@ -1,6 +1,6 @@
 import {setLocale, addMethod, string} from 'yup';
 
-import fa from './ind';
+import fa from './locale';
 
 setLocale(fa);
 

@@ -31,7 +31,12 @@
       v-model="model"
       :form-data="formData"
       :error-message="errorMessage"
-      :validationSchema="validationSchema" />
+      :validationSchema="validationSchema">
+      <template #extra-form-item>
+        <slot name="extra-form-item" />
+      </template>
+    </formItems>
+    <slot name="extend-form" />
   </div>
 </template>
 <script lang="ts">
@@ -45,20 +50,19 @@
 <script lang="ts" setup>
   import {ref, computed, inject} from 'vue';
   import formItems from './formItems.vue';
-  import type {IFormData} from './types/types';
-  import {useRoute, useRouter} from 'vue-router';
-  import type {RequestAxiosResource} from '@app/utils/axios/types/AxiosTypes';
+  import {useRouter} from 'vue-router';
 
   interface Props {
-    formData: IFormData[];
-    service?: RequestAxiosResource;
+    formData: any;
+    service?: any;
     backUrl?: string;
     saveUrl?: string;
     withSave?: boolean;
     title?: string;
-    // {validate: (s: any, t: any) => Promise<object>}
     validationSchema: any;
     saveForm?: (params: object) => void;
+    afterSave?: (params: object) => void;
+    beforeSave?: (params: object) => void;
   }
   const props = withDefaults(defineProps<Props>(), {
     formData: () => [],
@@ -68,7 +72,6 @@
   const model = defineModel();
 
   const $router = useRouter();
-  const $route = useRoute();
   const errorMessage = ref<Record<string, object>>({});
   const loading = ref<boolean>(false);
   const $toast = inject<any>('toast');
@@ -86,41 +89,47 @@
     return data;
   });
   function save() {
-    // loading az kharej az safhe ham ezafe shavad
-
     props.validationSchema
       .validate(cleanFormData.value, {abortEarly: false})
-      .then((response: object) => {
+      .then((response: {id: string | number}) => {
         errorMessage.value = {};
         if (props.saveForm) {
           return props.saveForm(response);
         }
         if (props.service) {
           loading.value = true;
+          if (props.beforeSave) {
+            props.beforeSave(response);
+          }
           let result;
-          if ($route.params.id) {
-            result = props.service.$update($route.params.id, response);
+          if (response.hasOwnProperty('id')) {
+            result = props.service.$updateWithHeader({data: response});
           } else {
-            result = props.service.$save(response);
+            result = props.service.$save({data: response});
           }
           result.then(
-            ({data, status}: {data: {message: string}; status: number}) => {
-              if (status === 200) {
+            ({data}: {data: {messages: string; successful: boolean}}) => {
+              if (data.successful === true) {
                 $toast.showToast({
-                  message: `${data.message} تا لحظاتی دیگر به صفحه لیست منتقل میشوید`,
+                  message: 'فرم با موفقیت ذخیره شد',
                   type: 'success'
                 });
+                if (props.afterSave) {
+                  return props.afterSave(data);
+                }
                 saveUrl();
               } else {
-                $toast.showToast(
-                  {
-                    message:
-                      data.message ||
-                      'خطایی رخ داده است لطفا مجدد تلاش کنید یا به ادمین پنل پیام دهید',
-                    type: 'error'
-                  },
-                  'bottom_left'
-                );
+                for (const error of data.messages) {
+                  $toast.showToast(
+                    {
+                      message:
+                        error ||
+                        'خطایی رخ داده است لطفا مجدد تلاش کنید یا به ادمین پنل پیام دهید',
+                      type: 'error'
+                    },
+                    'bottom_left'
+                  );
+                }
               }
             }
           );
@@ -168,7 +177,7 @@
     top: 0;
     background-color: #fff;
     z-index: 10;
-    border-bottom: 1px solid rgb(var(--v-theme-primary));
+    border-bottom: 1px solid #e4e4e4;
     h3 {
       font-size: 16px;
       color: #000;
@@ -181,6 +190,9 @@
         border-radius: 3px;
         width: 18px;
         height: 18px;
+        i {
+          line-height: 0;
+        }
       }
       .icon-back {
         background-color: #212529;
@@ -192,7 +204,7 @@
         margin-left: 10px;
         border: 1px solid #d1cbcc;
         color: #000 !important;
-        background: #d1cbcc !important;
+        background: $light_blue_color !important;
       }
       .save-btn {
         color: #fff !important;

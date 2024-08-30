@@ -1,37 +1,23 @@
 <template>
-  <v-select
+  <v-textarea
     autocomplete="off"
+    v-bind="$attrs"
     v-model="model"
     :name="field.name"
-    :items="field.items"
+    :variant="field.varient || 'outlined'"
     :placeholder="field.placeholder"
     :hint="field.hint"
-    :multiple="field.multiple"
-    :chips="field.chips"
-    item-title="text"
-    color="primary"
-    item-value="value"
-    :variant="field.variant || 'outlined'"
     :disabled="field.disabled"
     :error-messages="errorMessage"
     clearable
-    persistent-hint>
-    <template #chip="{item}" v-if="field.chips">
-      <v-chip
-        size="small"
-        :variant="field.chipsVariant || 'outlined'"
-        :color="setChipsColor(item)"
-        rounded>
-        {{ item.title }}
-      </v-chip>
-    </template>
+    no-resize>
     <template #label>
       <span>
         {{ field.label }}
         <span v-if="field.required" class="required">*</span>
       </span>
     </template>
-  </v-select>
+  </v-textarea>
 </template>
 
 <script lang="ts" setup>
@@ -40,12 +26,7 @@
     errorMessage: string | undefined;
   }
   withDefaults(defineProps<Props>(), {});
-
   const model = defineModel();
-
-  function setChipsColor(item: any) {
-    return item.raw && item.raw.color ? item.raw.color : 'primary';
-  }
 </script>
 <style lang="scss" scoped>
   .required {

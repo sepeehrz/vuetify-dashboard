@@ -55,7 +55,6 @@
     },
     methods: {
       commit(toast: any) {
-        console.log(toast);
         let doublicate = false;
         this.position = toast.position;
         this.show = toast.show;

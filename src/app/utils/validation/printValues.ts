@@ -1,4 +1,3 @@
-//directly copied from yup/util/printValues.ts
 const toString = Object.prototype.toString;
 const errorToString = Error.prototype.toString;
 const regExpToString = RegExp.prototype.toString;

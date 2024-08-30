@@ -107,7 +107,7 @@
   .required {
     font-size: 16px;
     font-weight: bold;
-    color: red;
+    color: $error_color;
   }
   ::v-deep(.vpd-container) {
     .vpd-content {
@@ -121,11 +121,11 @@
     }
     .vpd-selected {
       span {
-        background-color: red !important;
+        background-color: rgb(var(--v-theme-primary)) !important;
       }
     }
     .vpd-day-effect {
-      background-color: red !important;
+      background-color: rgb(var(--v-theme-primary)) !important;
     }
   }
 </style>

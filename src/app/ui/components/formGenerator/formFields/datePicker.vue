@@ -12,9 +12,6 @@
 </template>
 <script lang="ts" setup>
   import datePicker from '../../forms/datePicker.vue';
-  // defineOptions({
-  //   inheritAttrs: false
-  // });
   interface Props {
     field: any;
     errorMessage: string | undefined;

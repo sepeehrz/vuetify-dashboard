@@ -166,7 +166,7 @@
         justify-content: center;
         color: inherit;
         padding: 24px 0;
-        border-top: 1px solid #ccae2c;
+        border-top: 1px solid $primary-color;
         button {
           color: #000;
           padding: 10px 24px;
@@ -181,7 +181,7 @@
           }
 
           &:nth-child(2) {
-            background-color: #ccae2c;
+            background-color: $primary-color;
             color: #fff;
           }
         }

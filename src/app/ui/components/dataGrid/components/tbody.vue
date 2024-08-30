@@ -1,61 +1,75 @@
 <template>
   <slot name="data" :item="item" />
-  <td>
-    <slot name="actions">
-      <v-menu v-if="actions && actions.length !== 0" location="right">
-        <template v-slot:activator="{props: menu}">
-          <v-tooltip text="عملیات ها" location="bottom">
-            <template v-slot:activator="{props: tooltip}">
+  <template v-if="withAction">
+    <td v-if="isRecycleBin">
+      <slot name="recycle" :item="item">
+        <v-tooltip text="بازیابی" location="bottom">
+          <template v-slot:activator="{props}">
+            <v-btn
+              color="#000"
+              v-bind="props"
+              @click="_restore"
+              variant="text"
+              icon="mdi-restore"></v-btn>
+          </template>
+        </v-tooltip>
+      </slot>
+    </td>
+    <td v-else>
+      <slot name="actions" :item="item">
+        <v-menu v-if="actions && actions.length !== 0" location="right">
+          <template v-slot:activator="{props: menu}">
+            <v-tooltip text="عملیات ها" location="bottom">
+              <template v-slot:activator="{props: tooltip}">
+                <v-btn
+                  color="#000"
+                  v-bind="mergeProps(menu, tooltip)"
+                  variant="text"
+                  icon="mdi-dots-vertical"></v-btn>
+              </template>
+            </v-tooltip>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(action, index) in actions"
+              :key="index"
+              @click="action.cb(item)">
+              <v-list-item-title>
+                <v-icon>{{ action.icon }}</v-icon>
+                {{ action.title }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <slot name="edit">
+          <v-tooltip v-if="withEdit" text="ویرایش" location="bottom">
+            <template v-slot:activator="{props}">
               <v-btn
                 color="#000"
-                v-bind="mergeProps(menu, tooltip)"
+                v-bind="props"
+                @click="_edit"
                 variant="text"
-                icon="mdi-dots-vertical"></v-btn>
+                icon="mdi-pencil"></v-btn>
             </template>
           </v-tooltip>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(action, index) in actions"
-            :key="index"
-            @click="action.cb(item)">
-            <v-list-item-title>
-              <v-icon>{{ action.icon }}</v-icon>
-              {{ action.title }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <slot name="edit">
-        <v-tooltip v-if="withEdit" text="ویرایش" location="bottom">
-          <template v-slot:activator="{props}">
-            <v-btn
-              color="#000"
-              v-bind="props"
-              class="create-btn"
-              @click="_edit"
-              variant="text"
-              icon="mdi-pencil"></v-btn>
-          </template>
-        </v-tooltip>
-      </slot>
+        </slot>
 
-      <slot name="delete">
-        <v-tooltip v-if="withDelete" text="حذف" location="bottom">
-          <template v-slot:activator="{props}">
-            <v-btn
-              color="#000"
-              v-bind="props"
-              class="create-btn"
-              @click="_delete"
-              variant="text"
-              icon="mdi-delete"></v-btn>
-          </template>
-        </v-tooltip>
+        <slot name="delete">
+          <v-tooltip v-if="withDelete" text="حذف" location="bottom">
+            <template v-slot:activator="{props}">
+              <v-btn
+                color="#000"
+                v-bind="props"
+                @click="_delete"
+                variant="text"
+                icon="mdi-delete"></v-btn>
+            </template>
+          </v-tooltip>
+        </slot>
+        <slot name="extend_action" :item="item"></slot>
       </slot>
-      <slot name="extend_action"></slot>
-    </slot>
-  </td>
+    </td>
+  </template>
 </template>
 <script lang="ts" setup>
   import {inject, mergeProps} from 'vue';
@@ -67,13 +81,18 @@
     withDelete: boolean;
     editUrl?: (items: object) => void;
     actions?: any;
+    isRecycleBin: boolean;
+    withAction?: boolean;
   }
   const props = withDefaults(defineProps<Props>(), {
     withEdit: true,
-    withDelete: true
+    withDelete: true,
+    withAction: true,
+    isRecycleBin: false
   });
   const emits = defineEmits<{
     (e: 'delete', items: string): void;
+    (e: 'restore', items: string): void;
   }>();
   const $dialog: any = inject('dialog');
   const $router = useRouter();
@@ -89,12 +108,22 @@
   }
   async function _delete() {
     const confirm = await $dialog.confirm({
-      title: 'آیا از انجام این کار مطمئن میباشید ؟',
+      title: 'آیا از حذف این آیتم مطمئن میباشید ؟',
       ok_txt: 'بله',
       cancel_txt: 'خیر'
     });
     if (confirm) {
       emits('delete', props.item.id);
+    }
+  }
+  async function _restore() {
+    const confirm = await $dialog.confirm({
+      title: 'آیا از بازیابی این آیتم مطمئن میباشید ؟',
+      ok_txt: 'بله',
+      cancel_txt: 'خیر'
+    });
+    if (confirm) {
+      emits('restore', props.item.id);
     }
   }
 </script>

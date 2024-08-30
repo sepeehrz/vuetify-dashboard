@@ -8,6 +8,7 @@
     :disabled="disabled"
     :error-messages="errorMessage"
     @keypress="onKeyPress"
+    autocomplete="off"
     @input="onChange"
     @change="emitValue"
     suffix="ریال">
@@ -61,6 +62,9 @@
   watch(
     () => props.modelValue,
     value => {
+      if (value === '') {
+        displayValue.value = '';
+      }
       if (value !== '' && value !== null) {
         displayValue.value = Number.parseFloat(value)
           .toFixed(value.toString().includes('.') ? 2 : 0)
@@ -82,7 +86,6 @@
       7,
       8,
       9,
-      '.',
       '۰',
       '۱',
       '۲',

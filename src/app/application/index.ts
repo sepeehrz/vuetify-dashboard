@@ -1,7 +1,7 @@
 import {createApp, h} from 'vue';
 import {RouterView} from 'vue-router';
 import {startApplication} from '@app/application';
-export {startApplication, defineModule, get} from './setup';
+export {startApplication, defineModule} from './setup';
 
 createApp({
   render() {

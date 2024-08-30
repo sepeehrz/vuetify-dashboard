@@ -9,7 +9,8 @@
     :hint="field.hint"
     :disabled="field.disabled"
     :error-messages="errorMessage"
-    clearable>
+    :suffix="field.suffix"
+    :clearable="field && field.clearable === false ? false : true">
     <template #label>
       <span>
         {{ field.label }}
@@ -25,9 +26,7 @@
     errorMessage: string | undefined;
   }
   withDefaults(defineProps<Props>(), {});
-  // defineOptions({
-  //   inheritAttrs: false
-  // });
+
   const model = defineModel();
 </script>
 <style lang="scss" scoped>
